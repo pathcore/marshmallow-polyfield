@@ -19,6 +19,8 @@ class PolyFieldBase(with_metaclass(abc.ABCMeta, Field)):
             schema = None
             try:
                 schema = self.deserialization_schema_selector(v, data)
+                if getattr(self, 'session', None) is not None:
+                    schema.session = self.session
                 assert hasattr(schema, 'load')
             except Exception:
                 schema_message = None
